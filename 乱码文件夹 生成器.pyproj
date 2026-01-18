@@ -29,6 +29,7 @@
     <Folder Include="Bash\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GUI\LoadWindow-GUI.ui" />
     <Content Include="GUI\MainWindow-GUI.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

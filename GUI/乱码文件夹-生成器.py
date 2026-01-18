@@ -25,12 +25,12 @@ class CreateFolder:
         '''
         main.tiplabel.place_forget() #清空状态
         foldercheck_result = self._check_folder_exists(main, path)
-        numbercheck_result = self._check_number_exists(main, number)
+        numbercheck_result = self._check_number_exists(main, number) #获取目录和数字合规性
         if foldercheck_result and numbercheck_result: 
             #检查是否通过两个条件，通过才执行下面的代码
             loadwin = LoadingWindow(main)
             createfolder_thread = Thread(target=self._execute, daemon=True,
-                                         args=(path, number, loadwin))
+                                         args=(path, number, loadwin)) #创建线程（用于声称文件夹）
             createfolder_thread.start()
 
     def _choose_letter(self, how_long:int) -> str:
@@ -135,6 +135,53 @@ class LoadingWindow(tk.Toplevel):
         self.process.place(x=70, y=90, width=265, height=25) 
         #进度条，指示软件正在运行中，但是不具有进度功能↑
         self.process.start(5)
+
+class ErrorWindow(tk.Toplevel):
+    def __init__(self, main):
+        '''
+        这是一个错误窗口类，在软件遇到错误的时候，还无法解决，那么将会调用。
+
+        __init__函数说明：
+        仅负责窗口的创建，其他的话是由其他函数负责，保持简洁。
+        '''
+        super().__init__()
+        self.title('哎呀！出错了！')
+        main.winfo_geometry(self, 550, 400)
+        self.resizable(0, 0)
+        self.attributes('-alpha', 0.8) #窗口参数初始化
+
+        #↓由于这个窗口也是个弹窗，因此需要这样设置
+        self.transient(main)
+        self.grab_set()
+        self.focus_set()
+
+        self._set_components() #拼接控件
+        
+    def _set_components(self):
+        '''
+        此函数负责控件的创建。
+        这个函数是作为__init__函数没创建控件的补充。
+        '''
+        #-----文本设置-----
+        label_options = [('出错了...通常，这是由于以下原因造成的：', 28),
+                         ('若排查完仍然出现该窗口，请联系作者解决。', 270)] #Label的模板设置：（文本， y）
+        for text, y in label_options:
+            tk.Label(self, text=text, font=('', 12)).place(x=20, y=y, 
+                                                           width=420, height=23) #创建文本
+
+        #-----提示阅览控件----
+        self.tipstext = tk.Text(self, relief='flat', font=('楷体', 10))
+        self.tipstext.place(x=30, y=60, width=475, height=200)
+        self.scrollbar = ttk.Scrollbar(self, orient='vertical', command=self.tipstext.yview)
+        self.scrollbar.place(x=500, y=60, width=20, height=200) #滚动条创建
+        self.tipstext.config(yscrollcommand=self.scrollbar.set) #设置好滚动条的状态
+
+        #-----LabelFrame内控件-----
+        self.labelframe = ttk.Labelframe(self, text='报错信息', labelanchor='n')
+        self.labelframe.place(x=30, y=300, width=490, height=60) #labelframe控件
+        self.errorinfo = ttk.Entry(self.labelframe, font=('楷体', 10)) #报错详细信息会显示在这个控件上
+        self.errorinfo.place(x=10, y=0, width=465, height=26)
+        
 
 class MainWindow(tk.Tk):
     #====================窗口&控件部分====================
