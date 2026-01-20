@@ -63,6 +63,7 @@ class CreateFolder:
         至于其他的活？这是其他函数干的事情
         '''
         try:
+            李泽沛你妈死了 #测试错误稳固性，此内容是我跟某傻逼的私人恩怨
             for _ in range(int(number)): #循环，创建文件夹，循环多少次那么创建文件夹多少次
                 fullpath = join(path, self._set_folder_name()) #生成文件夹的路径
                 if not exists(fullpath): # 只有不存在才创建，防止崩溃
@@ -70,8 +71,11 @@ class CreateFolder:
             window.after(0, lambda: msgbox.showinfo('提示', '文件夹创建完成啦！'))
         except Exception as e:
             #Debug: ↓这是一个临时性的报错窗口解决方案，在不久后会更换掉
-            window.after(0, lambda: msgbox.showerror('出错了...',
-                                             '软件似乎出了点问题，请你检查下\n错误报告：'+str(e)))
+            window.after(0,lambda error=e: self._show_error(window, '''1) 你选择的文件夹所在磁盘下线或者故障。
+        2) 你选择的文件夹所在磁盘空间已满。
+        3) 你没有给该软件相应权限去操作你选择的文件夹（如果你想在受限文件夹创建乱码文件夹，这个是有必要的）
+        4) 你试图在只读的网络驱动器内通过软件创建乱码文件夹。
+        5) 你选择的文件夹所在的网络驱动器由于一些原因下线了。''', error))
         finally:
             #↓销毁窗口并关闭，防止内存残留
             window.after(0, window.destroy)
@@ -105,15 +109,26 @@ class CreateFolder:
             main.tiplabel.config(text='必须输入阿拉伯整数。')
             main.tiplabel.place(x=20, y=200, width=510, height=30) 
 
+    def _show_error(self, topwindow, tipinfo, errorinfo):
+        '''
+        当创建文件夹遇到致命错误时，将会执行这个函数。
+
+        topwindow：希望在选定窗口上置顶的变量。
+        tipinfo：展示排查信息。
+        errorinfo：错误信息。
+        '''
+        Errorwin = ErrorWindow(topwindow) #注入窗口变量让其置顶
+        Errorwin.window_set(topwindow) #置顶窗口
+
 class LoadingWindow(tk.Toplevel):
-    def __init__(self, main:tk.Tk):
+    def __init__(self, main):
         '''
         此模块负责在创建文件夹时弹出窗口。
         在此窗口弹出期间，用户无法在弹窗以外的窗口做任何事情，直到任务完成后消失。
         '''
         super().__init__()
         self.title('创建文件夹中，请稍等...')
-        main.winfo_geometry(self, 400, 150)
+        self._winfo_geometry(self, 400, 150)
         self.attributes('-alpha', 0.8)
         self.protocol('WM_DELETE_WINDOW', lambda: None)
         self.resizable(0, 0) #窗口初始化设置
@@ -136,6 +151,16 @@ class LoadingWindow(tk.Toplevel):
         #进度条，指示软件正在运行中，但是不具有进度功能↑
         self.process.start(5)
 
+    def _winfo_geometry(self, master:tk.Tk, x:int, y:int):
+        '''
+        如果使用该函数，在窗口设置大小的时候，默认居中在窗口中央。
+        （Tips：默认设置最小窗口伸展为你输入的数值）
+        '''
+        screenwidth = (master.winfo_screenwidth() - x)/2
+        screenheight = (master.winfo_screenheight() - y)/2
+        master.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}')
+        master.minsize(x, y)
+
 class ErrorWindow(tk.Toplevel):
     def __init__(self, main):
         '''
@@ -143,20 +168,27 @@ class ErrorWindow(tk.Toplevel):
 
         __init__函数说明：
         仅负责窗口的创建，其他的话是由其他函数负责，保持简洁。
+
+        main：软件主窗口变量。
         '''
         super().__init__()
         self.title('哎呀！出错了！')
-        main.winfo_geometry(self, 550, 400)
+        self._winfo_geometry(self, 550, 400)
         self.resizable(0, 0)
         self.attributes('-alpha', 0.8) #窗口参数初始化
 
-        #↓由于这个窗口也是个弹窗，因此需要这样设置
-        self.transient(main)
+    def window_set(self, topwindow):
+        '''
+        此函数负责窗口的置顶，并且初始化一些东西。
+
+        topwindow：希望置顶的窗口。
+        '''
+        self.transient(topwindow) #核心出装
         self.grab_set()
         self.focus_set()
 
-        self._set_components() #拼接控件
-        
+        self._set_components() #设置控件
+
     def _set_components(self):
         '''
         此函数负责控件的创建。
@@ -181,6 +213,16 @@ class ErrorWindow(tk.Toplevel):
         self.labelframe.place(x=30, y=300, width=490, height=60) #labelframe控件
         self.errorinfo = ttk.Entry(self.labelframe, font=('楷体', 10)) #报错详细信息会显示在这个控件上
         self.errorinfo.place(x=10, y=0, width=465, height=26)
+
+    def _winfo_geometry(self, master:tk.Tk, x:int, y:int):
+        '''
+        如果使用该函数，在窗口设置大小的时候，默认居中在窗口中央。
+        （Tips：默认设置最小窗口伸展为你输入的数值）
+        '''
+        screenwidth = (master.winfo_screenwidth() - x)/2
+        screenheight = (master.winfo_screenheight() - y)/2
+        master.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}')
+        master.minsize(x, y)
         
 
 class MainWindow(tk.Tk):
@@ -192,7 +234,7 @@ class MainWindow(tk.Tk):
         '''
         super().__init__()
         self.title('乱码文件夹 生成器')
-        self.winfo_geometry(self, 550, 380)
+        self._winfo_geometry(self, 550, 380)
         self.attributes('-alpha', 0.8)
         self.protocol('WM_DELETE_WINDOW', sys.exit)
         
@@ -327,11 +369,10 @@ class MainWindow(tk.Tk):
         '''
         self.howmany_entry.delete('0', 'end')
         self.howmany_entry.insert('0', str(number))
-    #====================对外开放控件部分====================
-    def winfo_geometry(self, master:tk.Tk, x:int, y:int):
+    
+    def _winfo_geometry(self, master:tk.Tk, x:int, y:int):
         '''
         如果使用该函数，在窗口设置大小的时候，默认居中在窗口中央。
-        这个函数的代码在其他函数是通用的
         （Tips：默认设置最小窗口伸展为你输入的数值）
         '''
         screenwidth = (master.winfo_screenwidth() - x)/2

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.5" author="PygubuDesigner 0.41.4">
+  <project>
+    <settings />
+    <customwidgets />
+    <resources />
+  </project>
+  <object class="tk.Tk" id="tk1">
+    <property name="geometry">550x400</property>
+    <property name="height">200</property>
+    <property name="resizable">none</property>
+    <property name="title" translatable="yes">哎呀！出错了！</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Label" id="label1">
+        <property name="font">{不存在字体} 12 {}</property>
+        <property name="text" translatable="yes">出错了...通常，这是由于以下原因造成的：</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">23</property>
+          <property name="width">420</property>
+          <property name="x">30</property>
+          <property name="y">28</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Text" id="text" named="True">
+        <property name="font">{楷体} 15 {}</property>
+        <property name="height">10</property>
+        <property name="relief">flat</property>
+        <property name="width">50</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">200</property>
+          <property name="width">475</property>
+          <property name="x">30</property>
+          <property name="y">60</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Scrollbar" id="sc1" named="True">
+        <property name="orient">vertical</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">200</property>
+          <property name="width">20</property>
+          <property name="x">500</property>
+          <property name="y">60</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="label3">
+        <property name="font">{不存在字体} 12 {}</property>
+        <property name="text" translatable="yes">若排查完仍然出现该窗口，请联系作者解决。</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">23</property>
+          <property name="width">420</property>
+          <property name="x">30</property>
+          <property name="y">270</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Labelframe" id="labelframe1">
+        <property name="height">200</property>
+        <property name="labelanchor">n</property>
+        <property name="text" translatable="yes">报错信息</property>
+        <property name="width">200</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">60</property>
+          <property name="width">490</property>
+          <property name="x">30</property>
+          <property name="y">300</property>
+        </layout>
+        <child>
+          <object class="ttk.Entry" id="entry1">
+            <property name="font">{楷体} 10 {}</property>
+            <layout manager="place">
+              <property name="anchor">nw</property>
+              <property name="height">26</property>
+              <property name="width">465</property>
+              <property name="x">10</property>
+              <property name="y">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
