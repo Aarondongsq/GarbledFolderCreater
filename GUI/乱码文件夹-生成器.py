@@ -63,7 +63,6 @@ class CreateFolder:
         至于其他的活？这是其他函数干的事情
         '''
         try:
-            李泽沛你妈死了 #测试错误稳固性，此内容是我跟某傻逼的私人恩怨
             for _ in range(int(number)): #循环，创建文件夹，循环多少次那么创建文件夹多少次
                 fullpath = join(path, self._set_folder_name()) #生成文件夹的路径
                 if not exists(fullpath): # 只有不存在才创建，防止崩溃
@@ -72,10 +71,10 @@ class CreateFolder:
         except Exception as e:
             #Debug: ↓这是一个临时性的报错窗口解决方案，在不久后会更换掉
             window.after(0,lambda error=e: self._show_error(window, '''1) 你选择的文件夹所在磁盘下线或者故障。
-        2) 你选择的文件夹所在磁盘空间已满。
-        3) 你没有给该软件相应权限去操作你选择的文件夹（如果你想在受限文件夹创建乱码文件夹，这个是有必要的）
-        4) 你试图在只读的网络驱动器内通过软件创建乱码文件夹。
-        5) 你选择的文件夹所在的网络驱动器由于一些原因下线了。''', error))
+2) 你选择的文件夹所在磁盘空间已满。
+3) 你没有给该软件相应权限去操作你选择的文件夹（如果你想在受限文件夹创建乱码文件夹，这个是有必要的）
+4) 你试图在只读的网络驱动器内通过软件创建乱码文件夹。
+5) 你选择的文件夹所在的网络驱动器由于一些原因下线了。''', error))
         finally:
             #↓销毁窗口并关闭，防止内存残留
             window.after(0, window.destroy)
@@ -119,6 +118,7 @@ class CreateFolder:
         '''
         Errorwin = ErrorWindow(topwindow) #注入窗口变量让其置顶
         Errorwin.window_set(topwindow) #置顶窗口
+        Errorwin.set_error_info(tipinfo, errorinfo)
 
 class LoadingWindow(tk.Toplevel):
     def __init__(self, main):
@@ -188,6 +188,18 @@ class ErrorWindow(tk.Toplevel):
         self.focus_set()
 
         self._set_components() #设置控件
+    
+    def set_error_info(self, tipstext:str, errortext:any):
+        '''
+        设置用户排查提示文本、错误信息。
+
+        tipstext：给予用户提示的信息文本。
+        errortext：软件报错时的信息。
+        '''
+        self.tipstext.insert('1.0', tipstext)
+        self.tipstext.config(state='disabled')
+        self.errorinfo.insert('1', errortext)
+        self.errorinfo.config(state='disabled')
 
     def _set_components(self):
         '''
