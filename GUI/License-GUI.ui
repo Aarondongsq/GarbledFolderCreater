@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.5" author="PygubuDesigner 0.41.4">
+  <project>
+    <settings />
+    <customwidgets />
+    <resources />
+  </project>
+  <object class="tk.Toplevel" id="toplevel1">
+    <property name="geometry">700x550</property>
+    <property name="minsize">700|550</property>
+    <child>
+      <object class="ttk.Scrollbar" id="scrollbar" named="True">
+        <property name="orient">vertical</property>
+        <layout manager="pack">
+          <property name="fill">y</property>
+          <property name="side">right</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Text" id="text1">
+        <property name="height">10</property>
+        <property name="text" translatable="yes">xukezhengneirong</property>
+        <property name="width">50</property>
+        <layout manager="pack">
+          <property name="expand">true</property>
+          <property name="fill">both</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

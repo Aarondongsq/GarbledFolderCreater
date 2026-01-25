@@ -155,7 +155,7 @@ class LoadingWindow(tk.Toplevel):
         self.protocol('WM_DELETE_WINDOW', lambda: None)
         self.resizable(0, 0) #窗口初始化设置
 
-        self._set_components()
+        self._set_components() #设置控件
 
         self.transient(main)
         self.grab_set() #由于该窗口的性质，故这样设置，使其变成一个弹窗。
