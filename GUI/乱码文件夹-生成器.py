@@ -1,5 +1,5 @@
 ﻿'''
-    乱码文件夹生成器 - GUI
+    乱码文件夹生成器 - GUI主代码
     Copyright (C) 2026 Chung Chai Aaron Dong
 
     This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ from os import makedirs
 from random import randint, choice
 
 import LICENSE
+import aboutwindow
 
 #==================== 全局函数 ====================
 def winfo_geometry(master:tk.Tk, x:int, y:int):
@@ -328,11 +329,12 @@ class MainWindow(tk.Tk):
                                           command=lambda num=number: self.confirmed_numfolder_(num))
 
         #-----aboutmenu菜单-----
-        self.aboutmenu.add_command(label='关于该软件')
+        self.aboutmenu.add_command(label='关于该软件', command=lambda: aboutwindow.MainWindow(self))
         self.aboutmenu.add_command(label='开源许可证...', 
                                    command=lambda: LICENSE.MainWindow(self))
         self.aboutmenu.add_separator()
-        self.aboutmenu.add_command(label='支持该软件')
+        self.aboutmenu.add_command(label='❤ 支持该软件 ❤', background='#fc7aab',  foreground='#f31c0a', 
+                                   font=('', 15, 'bold'))
 
     def _set_components(self):
         '''

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.5" author="PygubuDesigner 0.41.4">
+  <project>
+    <settings />
+    <customwidgets />
+    <resources />
+  </project>
+  <object class="tk.Toplevel" id="toplevel1">
+    <property name="geometry">600x400</property>
+    <property name="overrideredirect">false</property>
+    <property name="resizable">none</property>
+    <property name="title" translatable="yes">乱码文件夹 生成器 - 关于该软件</property>
+    <child>
+      <object class="tk.Label" id="label1">
+        <property name="font">TkDefaultFont</property>
+        <property name="highlightthickness">0</property>
+        <property name="image">show.png</property>
+        <property name="justify">right</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">120</property>
+          <property name="width">610</property>
+          <property name="x">-5</property>
+          <property name="y">-5</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label2">
+        <property name="font">{霞鹜文楷} 20 {bold}</property>
+        <property name="foreground">#57628C</property>
+        <property name="text" translatable="yes">版本 1.0</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">45</property>
+          <property name="width">150</property>
+          <property name="x">40</property>
+          <property name="y">140</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label3">
+        <property name="font">{霞鹜文楷} 10 {}</property>
+        <property name="text" translatable="yes">作者：小松果</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">20</property>
+          <property name="width">100</property>
+          <property name="x">45</property>
+          <property name="y">195</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label4">
+        <property name="font">{霞鹜文楷} 10 {}</property>
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">开发时间：2026.1.8</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">20</property>
+          <property name="width">157</property>
+          <property name="x">45</property>
+          <property name="y">220</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label5">
+        <property name="font">{霞鹜文楷} 10 {}</property>
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">说明：本软件及其插画均使用GPL V3协议开源。</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">20</property>
+          <property name="width">360</property>
+          <property name="x">45</property>
+          <property name="y">245</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Button" id="button1">
+        <property name="background">green</property>
+        <property name="borderwidth">0</property>
+        <property name="font">{不存在字体} 15 {bold}</property>
+        <property name="foreground">white</property>
+        <property name="relief">flat</property>
+        <property name="text" translatable="yes">了解了！</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="width">220</property>
+          <property name="x">55</property>
+          <property name="y">280</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Button" id="button2">
+        <property name="background">#fc7aab</property>
+        <property name="borderwidth">0</property>
+        <property name="font">{不存在字体} 15 {bold}</property>
+        <property name="foreground">#f31c0a</property>
+        <property name="relief">flat</property>
+        <property name="text" translatable="yes">❤ 支持该项目 ❤</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">50</property>
+          <property name="width">220</property>
+          <property name="x">326</property>
+          <property name="y">280</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

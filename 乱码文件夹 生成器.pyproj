@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>612f5966-2b7c-479e-8ade-c47aaf39492c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>GUI\乱码文件夹-生成器.py</StartupFile>
+    <StartupFile>GUI\aboutwindow.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bash\乱码文件夹 生成器.py" />
+    <Compile Include="GUI\aboutwindow.py" />
     <Compile Include="GUI\assets\assets.py" />
     <Compile Include="GUI\LICENSE.py" />
     <Compile Include="GUI\乱码文件夹-生成器.py" />
@@ -30,9 +31,12 @@
     <Folder Include="GUI\" />
     <Folder Include="Bash\" />
     <Folder Include="GUI\assets\" />
+    <Folder Include="GUI\assets\image\" />
     <Folder Include="GUI\UI\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GUI\assets\image\show.png" />
+    <Content Include="GUI\UI\AboutWindow - GUI.ui" />
     <Content Include="GUI\UI\ErrorWindow-GUI.ui" />
     <Content Include="GUI\UI\License-GUI.ui" />
     <Content Include="GUI\UI\LoadWindow-GUI.ui" />
