@@ -36,7 +36,8 @@ from time import sleep
 from random import randint, choice #Python自带模块
 
 import LICENSE
-import aboutwindow #导入外部模块
+import aboutwindow
+import supportwindow #导入外部模块
 
 #==================== 全局函数 ====================
 def winfo_geometry(master:tk.Tk, x:int, y:int):
@@ -121,7 +122,7 @@ class CreateFolder:
                 fullpath = join(path, self._set_folder_name()) #生成文件夹的路径
                 if not exists(fullpath): # 只有不存在才创建，防止崩溃
                     makedirs(fullpath)
-                sleep(0.01) #延时防卡死
+                sleep(0.01) #延时，针对低配电脑
             window.after(0, lambda: msgbox.showinfo('提示', '文件夹创建完成啦！'))
         except Exception as e:
             window.after(0,lambda error=e: self._show_error(window, '''1) 你选择的文件夹所在磁盘下线或者故障。
@@ -131,7 +132,7 @@ class CreateFolder:
 5) 你选择的文件夹所在的网络驱动器由于一些原因下线了。''', error)) #抛出窗口错误
         finally:
             #↓销毁窗口并关闭，防止内存残留
-            window.after(50, window.destroy)
+            window.after(50, window.destroy) #延时50ms，防止抢占资源
 
     def _check_folder_exists(self, main:tk.Tk, path:str) -> bool:
         '''
@@ -340,7 +341,7 @@ class MainWindow(tk.Tk):
                                    command=lambda: LICENSE.MainWindow(self))
         self.aboutmenu.add_separator()
         self.aboutmenu.add_command(label='❤ 支持该软件 ❤', background='#fc7aab',  foreground='#f31c0a', 
-                                   font=('', 15, 'bold'))
+                                   font=('', 15, 'bold'), command=lambda: supportwindow.MainWindow(self)) #支持软件窗口
 
     def _set_components(self):
         '''

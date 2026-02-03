@@ -54,7 +54,7 @@ def resource_path(relative_path) -> str:
 
 #==================== 类定义 ====================
 class MainWindow(tk.Toplevel):
-    def __init__(self, main:tk.Tk): #为了调试main暂时这样写（Debug）
+    def __init__(self, main:tk.Tk): 
         '''
         展示乱码文件夹生成器的关于信息界面。
 
@@ -70,7 +70,7 @@ class MainWindow(tk.Toplevel):
 
         self.transient(main)
         self.grab_set()
-        self.focus_set() #负责将窗口变弹窗（Debug：暂时禁用）
+        self.focus_set() #负责将窗口变弹窗
 
         #----- 菜单创建 -----
         self.menu = tk.Menu() #主菜单
@@ -88,7 +88,7 @@ class MainWindow(tk.Toplevel):
 
         self.config(menu=self.menu)
         
-    def _child_menu_create(self, main='Debug'):
+    def _child_menu_create(self, main:tk.Toplevel):
         '''
         负责创建软件菜单，为宝贵的__init__函数节省空间。
 
@@ -110,9 +110,10 @@ class MainWindow(tk.Toplevel):
         self.moremenu.add_command(label='❤ 支持该软件 ❤',  background='#fc7aab', 
                                   foreground='#f31c0a', font=('', 15, 'bold'), command=lambda: supportwindow.MainWindow(main))
         self.moremenu.add_command(label='开源许可证', command=lambda: LICENSE.MainWindow(self))
-        self.moremenu.add_command(label='小提示...', command=lambda: msgbox.showinfo('这个夜景好美啊', '我希望我也能去那里...'))
+        self.moremenu.add_command(label='小提示...', 
+                                  command=lambda: msgbox.showinfo('这个夜景好美啊', '我希望我也能去那里...', parent=self))
 
-    def _set_components(self, main='Debug'):
+    def _set_components(self, main:tk.Toplevel):
         '''
         负责窗口控件的创建。
         main：设定主窗口。
@@ -167,7 +168,3 @@ class MainWindow(tk.Toplevel):
         get_image = Image.open(resource_path(path))
         #↓返回tk图片数据
         return ImageTk.PhotoImage(get_image) 
-
-if __name__ == '__main__':
-    app = MainWindow()
-    app.mainloop()

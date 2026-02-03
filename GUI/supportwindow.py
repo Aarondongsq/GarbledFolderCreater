@@ -77,7 +77,7 @@ class MainWindow(tk.Toplevel):
 
         由于放的控件太少了，所以这个函数还负责图片加载
         '''
-        get_image = Image.open(resource_path(join('assets','image','support.png')))#获取图片（Debug）
+        get_image = Image.open(resource_path(join('assets','image','support.png')))#获取图片
         self.image = ImageTk.PhotoImage(get_image) #图片转换成可被Tk识别到的类型
 
         self.show_image = tk.Label(self, image=self.image) #展示图片

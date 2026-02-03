@@ -13,6 +13,7 @@
     <RootNamespace>乱码文件夹 生成器</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <InterpreterId>Global|PythonCore|3.12</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +48,9 @@
     <Content Include="GUI\UI\License-GUI.ui" />
     <Content Include="GUI\UI\LoadWindow-GUI.ui" />
     <Content Include="GUI\UI\MainWindow-GUI.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.12" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
