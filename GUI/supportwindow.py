@@ -63,11 +63,13 @@ class MainWindow(tk.Toplevel):
         self._winfo_geometry(450, 450)
         self.resizable(0, 0)
         self.attributes('-alpha', 0.8) #初始化窗口
+        self._set_icon(resource_path(join('assets', 'icon', 'money.ico')))
 
         self.transient(main)
         self.grab_set()
         self.focus_set() #将其变为弹窗
 
+        #↓创建控件
         self._set_components()
 
     def _set_components(self):
@@ -93,4 +95,17 @@ class MainWindow(tk.Toplevel):
         width = (self.winfo_screenwidth() - x) / 2
         height = (self.winfo_screenheight() - y) / 2 #获取屏幕长宽，并决定位置。
 
-        self.geometry(f'{x}x{y}+{int(width)}+{int(height)}')
+        self.geometry(f'{x}x{y}+{int(width)}+{int(height)}') #确定窗口长宽和位置，确定最小值
+        self.minsize(x, y)
+
+    def _set_icon(self, icon:str):
+        '''
+        设定软件窗口栏图标。
+        如果遇到极端情况，导致图标无法放置，那么将跳过这一步。
+
+        icon：图标位置。
+        '''
+        try:
+            self.iconbitmap(icon)
+        except: #若是遇到极端情况，将不会创建图标
+            pass

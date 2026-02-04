@@ -28,7 +28,8 @@ import sys
 from os.path import join, abspath, exists #Python自带库
 
 import LICENSE
-import supportwindow #导入外部库
+import supportwindow
+import EasterEggWindow#导入外部库
 
 from PIL import Image, ImageTk #第三方库
 
@@ -67,6 +68,7 @@ class MainWindow(tk.Toplevel):
         self._winfo_geometry(600, 400)
         self.attributes('-alpha', 0.8)
         self.resizable(0, 0) #初始化窗口参数
+        self._set_icon(resource_path(join('assets', 'icon', 'info.ico'))) #设置图标
 
         self.transient(main)
         self.grab_set()
@@ -83,46 +85,49 @@ class MainWindow(tk.Toplevel):
         self.menu.add_cascade(label='文件', menu=self.filemenu)
         self.menu.add_cascade(label='更多', menu=self.moremenu)
 
-        self._child_menu_create(self) #拼接菜单
-        self._set_components(self) #放置控件
+        self._child_menu_create() #拼接菜单
+        self._set_components() #放置控件
 
         self.config(menu=self.menu)
         
-    def _child_menu_create(self, main:tk.Toplevel):
+    def _child_menu_create(self):
         '''
         负责创建软件菜单，为宝贵的__init__函数节省空间。
-
-        main：设定主窗口。
         '''
         # ----- Filemenu子菜单 - 透明度调整菜单 -----
         alpha_options = [('0.2 （不建议）', 0.2), ('0.4', 0.4), ('0.6', 0.6), ('0.8 （默认）', 0.8),
                          ('不透明', 1)]
-        for text, number in alpha_options: #循环创建
+        for text, number in alpha_options: #循环创建窗口透明度菜单
             self.filemenu.alphamenu.add_command(label=text, 
-                                                command=lambda num=number: self.attributes('-alpha', num))
+                          command=lambda num=number: self.attributes('-alpha', num))
 
         # ----- Filemenu设置 -----
         self.filemenu.add_cascade(label='窗口透明度', menu=self.filemenu.alphamenu)
         self.filemenu.add_separator()
-        self.filemenu.add_command(label='关闭该窗口', foreground='red', command=self.destroy)
+        self.filemenu.add_command(label='关闭该窗口', foreground='red', 
+                                  command=lambda: self.after(10, self.destroy)) #延时退出防止触发WindowsBUG
 
         # ----- Moremenu设置 -----
         self.moremenu.add_command(label='❤ 支持该软件 ❤',  background='#fc7aab', 
-                                  foreground='#f31c0a', font=('', 15, 'bold'), command=lambda: supportwindow.MainWindow(main))
-        self.moremenu.add_command(label='开源许可证', command=lambda: LICENSE.MainWindow(self))
+                                  foreground='#f31c0a', font=('', 15, 'bold'), 
+                                  command=lambda: self._open_class(supportwindow))
+        self.moremenu.add_command(label='开源许可证', 
+                                  command=lambda: self._open_class(LICENSE))
+        #下方代码提示用户彩蛋位置
         self.moremenu.add_command(label='小提示...', 
-                                  command=lambda: msgbox.showinfo('这个夜景好美啊', '我希望我也能去那里...', parent=self))
+                                  command=lambda: msgbox.showinfo('这个夜景好美啊', '我希望我也能去那里...', parent=self)) 
 
-    def _set_components(self, main:tk.Toplevel):
+    def _set_components(self):
         '''
         负责窗口控件的创建。
-        main：设定主窗口。
         '''
         #----- 图片展示部分 -----
         try:
             self.image = self._load_picture(join('assets', 'image', 'show.png')) #加载图片
             self.picture = tk.Label(self, image=self.image)
             self.picture.place(x=-5, y=-5, width=610, height=120) #放置图片
+            self.picture.bind('<Button-1>', 
+                              lambda nothing: self._open_class(EasterEggWindow)) #设置彩蛋（挂nothing接收没卵用的点击信息）
         except Exception as e:
             '''
             即便上面图片因为不可抗力导致无法创建，下面的控件也可以照样用
@@ -135,7 +140,8 @@ class MainWindow(tk.Toplevel):
         tk.Label(self, text='版本 1.0', fg='#57628C', 
                  font=('', 20, 'bold')).place(x=40, y=140, width=150, height=45) #展示版本号
         infotext = [('作者：小松果', 195, 100), ('开发时间：2026.1.8', 220, 157),
-                    ('说明：本软件及其插画均使用GPL V3协议开源。', 245, 360)] #信息文本：(文本, y，width)]
+                    ('说明：本软件使用GPL V3协议开源。', 243, 275),
+                    ('软件所有插画均受CC BY-NC-ND 4.0保护。', 265, 323)] #信息文本：(文本, y，width)]
         for text, y, width in infotext: #循环创建，节省代码开销
             tk.Label(self, text=text, font=('', 10)).place(x=45, y=y, width=width, height=20)
 
@@ -143,11 +149,11 @@ class MainWindow(tk.Toplevel):
         ok_button = tk.Button(self, text='了解了！', bg='green', fg='white', activebackground='#FCB827',
                               activeforeground='white', border=0, relief='flat', font=('', 15, 'bold'),
                               command=self.destroy) #确认按钮
-        ok_button.place(x=55, y=280, width=220, height=50)
+        ok_button.place(x=55, y=310, width=220, height=50)
         support_project_button = tk.Button(self, text='❤ 支持该项目 ❤', bg='#fc7aab', fg='#f31c0a', activebackground='#FCB827',
                               activeforeground='white', border=0, relief='flat', font=('', 15, 'bold'),
-                              command=lambda: supportwindow.MainWindow(main)) #支持项目按钮
-        support_project_button.place(x=326, y=280, width=220, height=50)  
+                              command=lambda: self._open_class(supportwindow)) #支持项目按钮
+        support_project_button.place(x=326, y=310, width=220, height=50)  
 
     def _winfo_geometry(self, x:int, y:int):
         '''
@@ -155,8 +161,9 @@ class MainWindow(tk.Toplevel):
         （Tips：默认设置最小窗口伸展为你输入的数值）
         '''
         screenwidth = (self.winfo_screenwidth() - x)/2
-        screenheight = (self.winfo_screenheight() - y)/2
-        self.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}')
+        screenheight = (self.winfo_screenheight() - y)/2 #获取窗口位置
+
+        self.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}') #设定窗口长宽和位置，确认最小值
         self.minsize(x, y)
 
     def _load_picture(self, path:int) -> ImageTk.PhotoImage:
@@ -168,3 +175,31 @@ class MainWindow(tk.Toplevel):
         get_image = Image.open(resource_path(path))
         #↓返回tk图片数据
         return ImageTk.PhotoImage(get_image) 
+
+    def _set_icon(self, icon:str):
+        '''
+        设定软件窗口栏图标。
+        如果遇到极端情况，导致图标无法放置，那么将跳过这一步。
+
+        icon：图标位置。
+        '''
+        try:
+            self.iconbitmap(icon)
+        except: #若是遇到极端情况，将不会创建图标
+            pass
+
+    def _open_class(self, module):
+        '''
+        负责打开类，解决弹窗状态失效问题。
+
+        module：指定窗口模块。
+        '''
+        window = module.MainWindow(self)
+        self.wait_window(window) #等待窗口关闭
+        if self.winfo_exists():
+            '''
+            检查窗口是否存在，如果存在那么绑定
+            否则不会执行下面的代码，直接不运行。
+            '''
+            self.grab_set()
+            self.focus_set()

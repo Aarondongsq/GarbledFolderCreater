@@ -28,7 +28,7 @@ import sys
 from module.LString import GPL_V3
 
 class MainWindow(tk.Toplevel):
-    def __init__(self, main:tk.Tk):
+    def __init__(self, main:tk.Toplevel):
         '''
         这个类向用户展示许可证信息，随主窗口一起使用。
 
@@ -44,8 +44,9 @@ class MainWindow(tk.Toplevel):
         
         self.transient(main)
         self.grab_set()
-        self.focus_set()
+        self.focus_set() #设定这个窗口为一个弹窗
 
+        #↓创建控件
         self._set_components()
 
     def _set_components(self):
@@ -57,10 +58,10 @@ class MainWindow(tk.Toplevel):
         
         #----- 控件参数调整 -----
         self.license_text.config(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.config(command=self.license_text.yview)
+        self.scrollbar.config(command=self.license_text.yview) #确定滚动条滑动命令
 
         #----- 加入内容 -----
-        self.license_text.insert('1.0', GPL_V3)
+        self.license_text.insert('1.0', GPL_V3) #注入许可证内容
         self.license_text.config(state='disabled')
 
     def _winfo_geometry(self, x:int, y:int):
@@ -69,6 +70,7 @@ class MainWindow(tk.Toplevel):
         （Tips：默认设置最小窗口伸展为你输入的数值）
         '''
         screenwidth = (self.winfo_screenwidth() - x)/2
-        screenheight = (self.winfo_screenheight() - y)/2
-        self.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}')
+        screenheight = (self.winfo_screenheight() - y)/2 #获取屏幕长度，计算应在位置
+
+        self.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}') #确定位置和长宽，确定最小值
         self.minsize(x, y)

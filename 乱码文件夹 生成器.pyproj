@@ -26,7 +26,9 @@
   <ItemGroup>
     <Compile Include="Bash\乱码文件夹 生成器.py" />
     <Compile Include="GUI\aboutwindow.py" />
+    <Compile Include="GUI\EasterEggWindow.py" />
     <Compile Include="GUI\LICENSE.py" />
+    <Compile Include="GUI\module\EasterString\__init__.py" />
     <Compile Include="GUI\module\LString\__init__.py" />
     <Compile Include="GUI\supportwindow.py" />
     <Compile Include="GUI\乱码文件夹-生成器.py" />
@@ -35,12 +37,19 @@
     <Folder Include="GUI\" />
     <Folder Include="Bash\" />
     <Folder Include="GUI\assets\" />
+    <Folder Include="GUI\assets\icon\" />
     <Folder Include="GUI\assets\image\" />
     <Folder Include="GUI\module\" />
     <Folder Include="GUI\module\LString\" />
+    <Folder Include="GUI\module\EasterString\" />
     <Folder Include="GUI\UI\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GUI\assets\icon\egg.ico" />
+    <Content Include="GUI\assets\icon\info.ico" />
+    <Content Include="GUI\assets\icon\mainicon.ico" />
+    <Content Include="GUI\assets\icon\money.ico" />
+    <Content Include="GUI\assets\image\button.png" />
     <Content Include="GUI\assets\image\show.png" />
     <Content Include="GUI\assets\image\support.png" />
     <Content Include="GUI\UI\AboutWindow - GUI.ui" />

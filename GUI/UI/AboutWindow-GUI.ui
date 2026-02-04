@@ -70,18 +70,32 @@
       <object class="tk.Label" id="label5">
         <property name="font">{霞鹜文楷} 10 {}</property>
         <property name="state">normal</property>
-        <property name="text" translatable="yes">说明：本软件及其插画均使用GPL V3协议开源。</property>
+        <property name="text" translatable="yes">说明：本软件使用GPL V3协议开源。</property>
         <layout manager="place">
           <property name="anchor">nw</property>
           <property name="height">20</property>
-          <property name="width">360</property>
+          <property name="width">275</property>
           <property name="x">45</property>
-          <property name="y">245</property>
+          <property name="y">243</property>
         </layout>
       </object>
     </child>
     <child>
-      <object class="tk.Button" id="button1">
+      <object class="tk.Label" id="label6">
+        <property name="font">{霞鹜文楷} 10 {}</property>
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">软件所有插画均受CC BY-NC-ND 4.0保护。</property>
+        <layout manager="place">
+          <property name="anchor">nw</property>
+          <property name="height">20</property>
+          <property name="width">323</property>
+          <property name="x">45</property>
+          <property name="y">265</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Button" id="button3">
         <property name="background">green</property>
         <property name="borderwidth">0</property>
         <property name="font">{不存在字体} 15 {bold}</property>
@@ -93,12 +107,12 @@
           <property name="height">50</property>
           <property name="width">220</property>
           <property name="x">55</property>
-          <property name="y">280</property>
+          <property name="y">310</property>
         </layout>
       </object>
     </child>
     <child>
-      <object class="tk.Button" id="button2">
+      <object class="tk.Button" id="button4">
         <property name="background">#fc7aab</property>
         <property name="borderwidth">0</property>
         <property name="font">{不存在字体} 15 {bold}</property>
@@ -110,7 +124,7 @@
           <property name="height">50</property>
           <property name="width">220</property>
           <property name="x">326</property>
-          <property name="y">280</property>
+          <property name="y">310</property>
         </layout>
       </object>
     </child>

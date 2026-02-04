@@ -29,7 +29,7 @@ import tkinter.filedialog as fileask
 
 import sys
 from threading import Thread
-from os.path import join, exists
+from os.path import join, exists, abspath
 from os import makedirs
 from time import sleep
 
@@ -49,6 +49,25 @@ def winfo_geometry(master:tk.Tk, x:int, y:int):
     screenheight = (master.winfo_screenheight() - y)/2
     master.geometry(f'{x}x{y}+{int(screenwidth)}+{int(screenheight)}')
     master.minsize(x, y)
+
+def resource_path(relative_path) -> str:
+    '''
+    针对软件打包的情况生成路径，然后返回str值，可以直接使用。
+    特别关照“VS”这个狗屎调试器，能自动检测是否在调试模式
+
+    relative_path：以这个代码文件为基准，定位到文件的路径。
+    '''
+    try:
+        # PyInstaller创建临时文件夹,将路径存储于_MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path =abspath(".")
+
+    #↓返回拼接结果
+    if exists(join(base_path, relative_path)): #确实是否在VS调试环境下
+        return join(base_path, relative_path) 
+    else:
+        return join(base_path, 'GUI', relative_path)
 
 def dpi_fix(master:tk.Tk):
     '''
@@ -94,8 +113,9 @@ class CreateFolder:
         不过开始之前，你先给我输入一个数字，决定我到底要生成多长的乱文
         我生成好了后会给你
         '''
-        letter = 'abcdefghijklmnopqrstuvwxyz1234567890'
-        return ''.join(choice(letter) for _ in range(how_long)) #返回已经搞定的乱文
+        letter = 'abcdefghijklmnopqrstuvwxyz1234567890' #字符串
+        #↓返回已经搞定的乱文
+        return ''.join(choice(letter) for _ in range(how_long)) 
 
     def _set_folder_name(self) -> str:
         '''
@@ -123,7 +143,7 @@ class CreateFolder:
                 if not exists(fullpath): # 只有不存在才创建，防止崩溃
                     makedirs(fullpath)
                 sleep(0.01) #延时，针对低配电脑
-            window.after(0, lambda: msgbox.showinfo('提示', '文件夹创建完成啦！'))
+            window.after(0, lambda: msgbox.showinfo('提示', '文件夹创建完成啦！')) #创建成功提示
         except Exception as e:
             window.after(0,lambda error=e: self._show_error(window, '''1) 你选择的文件夹所在磁盘下线或者故障。
 2) 你选择的文件夹所在磁盘空间已满。
@@ -219,8 +239,8 @@ class ErrorWindow(tk.Toplevel):
         super().__init__()
         self.title('哎呀！出错了！')
         winfo_geometry(self, 550, 400)
-        self.resizable(0, 0)
-        self.attributes('-alpha', 0.8) #窗口参数初始化
+        self.resizable(0, 0) #窗口参数初始化
+        self.attributes('-alpha', 0.8) 
 
     def window_set(self, topwindow):
         '''
@@ -232,7 +252,8 @@ class ErrorWindow(tk.Toplevel):
         self.grab_set()
         self.focus_set()
 
-        self._set_components() #设置控件
+        #↓设置控件
+        self._set_components() 
     
     def set_error_info(self, tipstext:str, errortext:any):
         '''
@@ -280,8 +301,10 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title('乱码文件夹 生成器')
         winfo_geometry(self, 550, 380)
+        self.resizable(0, 0)
         self.attributes('-alpha', 0.8)
         self.protocol('WM_DELETE_WINDOW', sys.exit)
+        self._set_icon(resource_path(join('assets', 'icon', 'mainicon.ico')))
         dpi_fix(self) #解决DPI问题，全局应用
         
         self._set_components() #开始创建控件
@@ -340,8 +363,9 @@ class MainWindow(tk.Tk):
         self.aboutmenu.add_command(label='开源许可证...', 
                                    command=lambda: LICENSE.MainWindow(self))
         self.aboutmenu.add_separator()
-        self.aboutmenu.add_command(label='❤ 支持该软件 ❤', background='#fc7aab',  foreground='#f31c0a', 
-                                   font=('', 15, 'bold'), command=lambda: supportwindow.MainWindow(self)) #支持软件窗口
+         #↓支持软件窗口
+        self.aboutmenu.add_command(label='❤ 支持该软件 ❤', background='#fc7aab',  foreground='#f31c0a',  
+                                   font=('', 15, 'bold'), command=lambda: supportwindow.MainWindow(self))
 
     def _set_components(self):
         '''
@@ -389,6 +413,18 @@ class MainWindow(tk.Tk):
                                       activebackground='#FCB827', activeforeground='white',
                                       command=lambda: CreateFolder(self, self.putwhere_entry.get(), self.howmany_entry.get())) #开始按钮生成
         self.actionbutton.place(x=175, y=250)
+
+    def _set_icon(self, icon:str):
+        '''
+        设定软件窗口栏图标。
+        如果遇到极端情况，导致图标无法放置，那么将跳过这一步。
+
+        icon：图标位置。
+        '''
+        try: #设定图标
+            self.iconbitmap(icon)
+        except: #若是遇到极端情况，将不会设定图标
+            pass
 
     def askwheretostroge_(self):
         '''
