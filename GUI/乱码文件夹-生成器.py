@@ -64,7 +64,7 @@ def resource_path(relative_path) -> str:
         base_path =abspath(".")
 
     #↓返回拼接结果
-    if exists(join(base_path, relative_path)): #确实是否在VS调试环境下
+    if exists(join(base_path, relative_path)): #检查是否在VS调试环境下
         return join(base_path, relative_path) 
     else:
         return join(base_path, 'GUI', relative_path)
@@ -104,17 +104,17 @@ class CreateFolder:
             #检查是否通过两个条件，通过才执行下面的代码
             loadwin = LoadingWindow(main)
             createfolder_thread = Thread(target=self._execute, daemon=True,
-                                         args=(path, number, loadwin)) #创建线程（用于声称文件夹）
+                                         args=(path, number, loadwin)) #创建线程（用于生成文件夹）
             createfolder_thread.start()
 
     def _choose_letter(self, how_long:int) -> str:
         '''
-        负责随机生成一段乱文，也是乱码文件夹生成器的一个重要零件。
+        负责随机生成一段乱码，也是乱码文件夹生成器的一个重要零件。
         不过开始之前，你先给我输入一个数字，决定我到底要生成多长的乱文
         我生成好了后会给你
         '''
         letter = 'abcdefghijklmnopqrstuvwxyz1234567890' #字符串
-        #↓返回已经搞定的乱文
+        #↓返回已经搞定的乱码
         return ''.join(choice(letter) for _ in range(how_long)) 
 
     def _set_folder_name(self) -> str:
@@ -126,7 +126,7 @@ class CreateFolder:
         template = ['%s-%s-%s-%s','%s-%s-%s',
                     '%s-%s','%s'] #乱码文件夹名称的名称模板
         choosed_template = choice(template) #选择一个模板
-        word_temp = [] #乱文的暂存列表
+        word_temp = [] #乱码的暂存列表
         for i in range(choosed_template.count('%s')):
             word_temp.append(self._choose_letter(randint(5, 10)))
         #下方的return将会现场组合好乱码文件夹的名称，然后返回
